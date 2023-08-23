@@ -64,3 +64,55 @@ Run the following command to install the libraries/packages.
     2023-08-15 16:29:20,286:src.main:main:INFO:Healthy was checked.
     2023-08-15 16:31:40,162:src.main:main:DEBUG:resultado sum: 11
     ```
+
+### Individual deployment of the API with Docker and usage
+
+#### Build the image
+
+* Ensure you are in the `demo_fast_api_logging` directory (root folder).
+* Run the following code to build the image:
+
+    ```bash
+    docker build -t demo_fast_api-image src/
+    ```
+
+* Inspect the image created by running this command:
+
+    ```bash
+    docker images
+    ```
+
+    Output:
+
+    ```bash
+    REPOSITORY            TAG       IMAGE ID       CREATED          SIZE
+    demo_fast_api-image   latest    9c2755fa5f2d   31 seconds ago   312MB
+    ```
+
+#### Run demo_fast_api REST API
+
+1. Run the next command to start the `demo_fast_api-image` image in a container.
+
+    ```bash
+    docker run -d --rm --name demo_fast_api-c -p 8000:8000 demo_fast_api-image
+    ```
+    
+    Output:
+
+    ```bash
+    demo_fast_api-image
+    8e99c3aa80439e07832f9a480758c9d3baf631476375d7e16f7bec3cc68576b4
+    ```
+
+2. Check the container running.
+
+    ```bash
+    docker ps -a
+    ```
+
+    Output:
+
+    ```bash
+    CONTAINER ID   IMAGE               COMMAND                  CREATED          STATUS         PORTS                    NAMES
+    f87bc43f127c   demo_fast_api-image   "uvicorn main:app --…"   12 seconds ago   Up 9 seconds   0.0.0.0:8000->8000/tcp   demo_fast_api-c
+    ```
