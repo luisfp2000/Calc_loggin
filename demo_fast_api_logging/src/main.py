@@ -9,6 +9,7 @@ from fastapi import (
     status)
 from .calculator.calculator import Calculator
 
+
 calc = Calculator()
 logger = logging.getLogger(__name__) # Indicamos que tome el nombre del modulo
 logger.setLevel(logging.DEBUG) # Configuramos el nivel de logging
@@ -20,6 +21,11 @@ file_handler = logging.FileHandler('main_fast_api.log') # Indicamos el nombre de
 file_handler.setFormatter(formatter) # Configuramos el formato
 
 logger.addHandler(file_handler) # Agregamos el archivo
+
+stream_handler = logging.StreamHandler()  # Create a StreamHandler
+stream_handler.setFormatter(formatter)   # Set the same formatter as the file handler
+
+logger.addHandler(stream_handler) 
 
 class CalculatorFormat(str, Enum):
     SHORT = "digital"
@@ -183,6 +189,7 @@ async def divide(v1: float, v2: float):
     if v2 == 0 or v1 == 0:
         print("resultado: cannot divide with 0")
         logger.debug('resultado: cannot divide with 0')
+        result = calc.divide(v1, v2)
         return {"resultado": "can't divide with 0"}
 
     result = int(calc.divide(v1, v2))
@@ -332,12 +339,12 @@ async def multiply(text: str = Body(...)):  # (...) means that the argument is r
         if isinstance(v1, int) and isinstance(v2, int):
             result = int(calc.multiply(v1, v2))
             print(f"'resultado': {result}")
-            logging.info(f"'resultado': {result}")
+            logger.info(f"'resultado': {result}")
             return {"resultado": result}
 
     except Exception as e:
         print(f"Error: {str(e)}")
-        logging.exception(f"Error: {str(e)}")
+        logger.exception(f"Error: {str(e)}")
         raise HTTPException(
             status.HTTP_400_BAD_REQUEST,
             detail={

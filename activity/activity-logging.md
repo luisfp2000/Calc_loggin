@@ -9,6 +9,8 @@ Modify the [demo_fast_api_logging](../demo_fast_api_logging) to meet the require
 * Include a logger called `calculator.log` in the [calculator.py](../demo_fast_api_logging/src/calculator/calculator.py) module.
 * The logger should have configured the `DEBUG` level.
 * Include a logging exception for the function `divide` method when the divison is executed by zero.
+
+
 * Add a `logging.StreamHandler()` to visualize them also on console.
 
 >**NOTE**  
