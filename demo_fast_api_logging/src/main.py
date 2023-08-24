@@ -1,4 +1,4 @@
-import logging
+from utilities.CustomLogging import CustomLogging
 from enum import Enum
 from fastapi import (
     FastAPI, 
@@ -8,25 +8,9 @@ from fastapi import (
     HTTPException,
     status)
 from .calculator.calculator import Calculator
-
-
 calc = Calculator()
-logger = logging.getLogger(__name__) # Indicamos que tome el nombre del modulo
-logger.setLevel(logging.DEBUG) # Configuramos el nivel de logging
 
-formatter = logging.Formatter('%(asctime)s:%(name)s:%(module)s:%(levelname)s:%(message)s') # Creamos el formato
-
-file_handler = logging.FileHandler('main_fast_api.log') # Indicamos el nombre del archivo
-
-file_handler.setFormatter(formatter) # Configuramos el formato
-
-logger.addHandler(file_handler) # Agregamos el archivo
-
-stream_handler = logging.StreamHandler()  # Create a StreamHandler
-stream_handler.setFormatter(formatter)   # Set the same formatter as the file handler
-
-logger.addHandler(stream_handler) 
-
+logger = CustomLogging(name="Main", log_level="DEBUG", modulo =__name__)
 class CalculatorFormat(str, Enum):
     SHORT = "digital"
     FULL = "analogic"
